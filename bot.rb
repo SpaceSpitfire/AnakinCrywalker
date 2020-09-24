@@ -53,7 +53,7 @@ end
 
 sandstorm_active = []
 
-bot.message(with_text: /I don't like sand/i) do |event|
+bot.message(with_text: /I don('|‘|’|´|`)t like sand/i) do |event|
   if sandstorm_active.include?(event.server)
     bot_profile = bot.profile.on(event.server)
     event.server.text_channels.each do |channel|
