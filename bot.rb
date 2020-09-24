@@ -7,7 +7,7 @@ require 'base64'
 require 'net/http'
 require 'uri'
 
-bot = Discordrb::Bot.new token: env['BOT_TOKEN']
+bot = Discordrb::Bot.new token: ENV['BOT_TOKEN']
 
 crywalker = []
 bot.message(start_with: 'randping') do |event|
