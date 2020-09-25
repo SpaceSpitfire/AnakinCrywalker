@@ -93,4 +93,34 @@ bot.message(start_with: /]sandstorm/i) do |event|
   end
 end
 
+penis_active = []
+
+bot.message(start_with: /]penis.mode/i) do |event|
+  if event.author.defined_permission?(:administrator)
+    if event.message.content.match?(/.* enable/i)
+      if penis_active.include?(event.server)
+        event.respond("penis mode already active")
+      else
+        penis_active << event.server
+        event.respond("penis mode activated")
+      end
+    elsif event.message.content.match?(/.* disable/i)
+      if penis_active.include?(event.server)
+        penis_active -= [event.server]
+        event.respond("penis mode deactivated")
+      else
+        event.respond("penis mode isn't active")
+      end
+    end
+  else
+    event.respond("user lacks permissions")
+  end
+end
+
+bot.message(with_text: /.*penis.*/i) do |event|
+  if penis_active.include?(event.server)
+  event.author.set_nick("Penis")
+  event.respond("Penis")
+end
+
 bot.run
