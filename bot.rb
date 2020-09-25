@@ -119,7 +119,7 @@ end
 
 bot.message(with_text: /.*penis.*/i) do |event|
   return if penis_active.include?(event.server)
-  event.author.set_nick("Penis")
+  event.author.set_nick("Penis") rescue nil
   event.respond("Penis")
 end
 
