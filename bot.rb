@@ -136,6 +136,7 @@ bot.message(start_with: /]rename.mode/i) do |event|
         rename_mode[event.server][:active] = true
         event.respond("rename mode enabled renaming everyone I can to #{new_name}\n this will take some time because of discord's rate limitations")
         event.server.members.each do |member|
+          break unless(rename_mode[event.server][:active])
           member.set_nick(rename_mode[event.server][:name]) rescue nil
           sleep(1)
         end
@@ -143,14 +144,10 @@ bot.message(start_with: /]rename.mode/i) do |event|
     elsif event.message.content.match?(/.* run, .*/i)
       new_name = event.message.content.split(', ').last
       rename_mode[event.server][:name] = new_name
-      if(rename_mode[event.server][:active])
-        event.respond("rename mode already enabled, setting new rename name to #{new_name}")
-      else
-        event.respond("single run rename called, renaming everyone I can to #{new_name}\n this will take some time because of discord's rate limitations")
-        event.server.members.each do |member|
-          member.set_nick(rename_mode[event.server][:name]) rescue nil
-          sleep(1)
-        end
+      event.respond("single run rename called, renaming everyone I can to #{new_name}\n this will take some time because of discord's rate limitations")
+      event.server.members.each do |member|
+        member.set_nick(rename_mode[event.server][:name]) rescue nil
+        sleep(1)
       end
     elsif event.message.content.match?(/.* disable/i)
       rename_mode[event.server][:active] = false
