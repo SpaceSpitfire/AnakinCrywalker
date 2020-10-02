@@ -6,6 +6,7 @@ require 'discordrb/webhooks'
 require 'base64'
 require 'net/http'
 require 'uri'
+require 'date'
 
 bot = Discordrb::Bot.new token: ENV['BOT_TOKEN']
 
@@ -116,10 +117,13 @@ bot.message(start_with: /]penis.mode/i) do |event|
     event.respond("user lacks permissions")
   end
 end
-
+months = {
+  "October" => "💀"
+}
 bot.message(with_text: /.*penis.*/i) do |event|
   return unless penis_active.include?(event.server)
-  event.author.set_nick("Penis") rescue nil
+  seasonal_flavor = months[Date.today.strftime("%B")]
+  event.author.set_nick("#{seasonal_flavor}Penis#{seasonal_flavor}") rescue nil
   event.respond("Penis")
 end
 
