@@ -39,12 +39,10 @@ end
 
 bot.message(start_with: ']quote') do |event|
   return if event.author.bot_account?
-  puts event.message.content
   member = event.message.mentions[0].on(event.server) || event.author
   say = event.message.content.split(/<@!?\d*>/, 2).last
   avatar = "data:image/png;base64,#{Base64.encode64(Net::HTTP.get URI(member.avatar_url.gsub('webp', 'png')))}"
   hook = event.message.channel.create_webhook(member.nick || member.name, avatar)
-
   client = Discordrb::Webhooks::Client.new(token: hook.token, id: hook.id)
   client.execute do |builder|
     builder.content = say
@@ -52,6 +50,20 @@ bot.message(start_with: ']quote') do |event|
   hook.delete
 end
 
+bot.message(start_with: ']sneakquote') do |event|
+  return if event.author.bot_account?
+  member = event.message.mentions[0].on(event.server) || event.author
+  say = event.message.content.split(/<@!?\d*>/, 2).last
+  avatar = "data:image/png;base64,#{Base64.encode64(Net::HTTP.get URI(member.avatar_url.gsub('webp', 'png')))}"
+  hook = event.message.channel.create_webhook(member.nick || member.name, avatar)
+  event.message.delete
+
+  client = Discordrb::Webhooks::Client.new(token: hook.token, id: hook.id)
+  client.execute do |builder|
+    builder.content = say
+  end
+  hook.delete
+end
 sandstorm_active = []
 
 bot.message(with_text: /I don('|‘|’|´|`)t like sand/i) do |event|
