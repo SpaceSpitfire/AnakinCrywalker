@@ -7,8 +7,6 @@ default:
 
 heroku:
   adapter: 'postgresql'
-  host: <%= ENV['DATABASE_HOST'] %>
+  encoding: unicode
+  pool: 20
   url: <%= ENV['DATABASE_URL'] %>
-  database: <%= ENV['DATABASE_NAME'] %>
-  username: <%= ENV['DATABASE_USER'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
