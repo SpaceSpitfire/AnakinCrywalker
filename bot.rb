@@ -145,7 +145,7 @@ bot.message(start_with: /]rename.mode/i) do |event|
   if event.author.defined_permission?(:administrator)
     if event.message.content.match?(/.* enable, .*/i)
       new_name = event.message.content.split(', ').last
-      rename_mode[event.server][:name] = new_name
+      rename_mode[event.server] = {name: new_name, active: false}
       if(rename_mode[event.server][:active])
         event.respond("rename mode already enabled, setting new rename name to #{new_name}")
       else
@@ -159,14 +159,14 @@ bot.message(start_with: /]rename.mode/i) do |event|
       end
     elsif event.message.content.match?(/.* run, .*/i)
       new_name = event.message.content.split(', ').last
-      rename_mode[event.server][:name] = new_name
+      rename_mode[event.server] = {name: new_name, active: false}
       event.respond("single run rename called, renaming everyone I can to #{new_name}\n this will take some time because of discord's rate limitations")
       event.server.members.each do |member|
         member.set_nick(rename_mode[event.server][:name]) rescue nil
         sleep(1)
       end
     elsif event.message.content.match?(/.* disable/i)
-      rename_mode[event.server][:active] = false
+      rename_mode[event.server] = {name: nil, active: false}
       event.respond("rename mode disabled")
     else
       event.respond("rename mode syntax:\n `rename mode enable, <name you want>` to enable\n `rename mode run, <name you want>` to just rename everyone once and stop\n `rename mode disable` to disable")
