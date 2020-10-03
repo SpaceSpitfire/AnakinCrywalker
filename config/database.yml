@@ -7,6 +7,5 @@ default:
 
 heroku:
   adapter: 'postgresql'
-  encoding: unicode
-  pool: 20
   url: <%= ENV['DATABASE_URL'] %>
+  pool: 20
