@@ -14,7 +14,6 @@ require 'active_record'
 require 'yaml'
 require 'require_all'
 require 'pp'
-require "concurrent_ruby"
 require_all 'models/*.rb'
 
 env = ENV['ENVIRONMENT'] || 'default'
