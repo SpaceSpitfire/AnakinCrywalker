@@ -217,10 +217,12 @@ bot.member_update() do |event|
   end
 end
 
+
 bot.message(start_with: /]role count/i) do |event|
-  role_name = event.message.content.gsub(/]role count /i, '')
-  role = event.server.roles.find{|role| role.name == role_name}
-  event.message.respond("#{role_name} has #{role.members.count} members")
+    role_name = event.message.content.gsub(/]role count /i, '')
+
+      role = event.message.role_mentions[0] || event.server.roles.find{|role| role.name.downcase == role_name.downcase.strip}
+        event.respond("#{role.name} has #{role.members.count} members")
 end
 
 bot.run
