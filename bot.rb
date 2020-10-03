@@ -178,13 +178,13 @@ end
 
 bot.member_join() do |event|
   if(rename_mode[event.server][:active])
-    event.user.set_nick(rename_mode[event.server][:name]) rescue nil
+    event.user.on(event.server).set_nick(rename_mode[event.server][:name]) rescue nil
   end
 end
 
 bot.member_update() do |event|
   if(rename_mode[event.server][:active])
-    event.user.set_nick(rename_mode[event.server][:name]) rescue nil
+    event.user.on(event.server).set_nick(rename_mode[event.server][:name]) rescue nil
   end
 end
 
