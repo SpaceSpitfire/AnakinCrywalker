@@ -33,7 +33,7 @@ bot.message(start_with: Regexp.new(Regexp.escape('now this is where the fun begi
     event.respond('Anakin Crywalker')
   else
     server.update(crywalker: true)
-    while(crywalker.include?(event.server))
+    while(server.crywalker)
       event.respond('Anakin Crywalker')
       sleep(3600)
     end
