@@ -44,6 +44,7 @@ GEM
     opus-ruby (1.0.1)
       ffi
     pg (1.2.3)
+    rake (13.0.1)
     require_all (3.0.0)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
@@ -70,6 +71,7 @@ DEPENDENCIES
   concurrent-ruby (~> 1.1)
   discordrb!
   pg
+  rake
   require_all
 
 BUNDLED WITH
