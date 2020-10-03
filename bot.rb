@@ -16,7 +16,7 @@ require 'pp'
 require "concurrent_ruby"
 require_all 'models/*.rb'
 
-env = 'default' || ENV['ENVIRONMENT']
+env = ENV['ENVIRONMENT'] || 'default'
 db_config = YAML::load(File.open('config/database.yml'))[env]
 ActiveRecord::Base.establish_connection(db_config)
 
@@ -167,7 +167,7 @@ bot.message(start_with: /]rename.mode/i) do |event|
         server.rename_mode = true
         server.save
         event.respond("rename mode enabled renaming everyone I can to #{new_name}\n this will take some time because of discord's rate limitations")
-        event.server.members.each_slice(5) do |group| 
+        event.server.members.each_slice(5) do |group|
           break unless server.rename_mode
           group.each do |member|
             member.set_nick(new_name(server.nick, member)) rescue nil

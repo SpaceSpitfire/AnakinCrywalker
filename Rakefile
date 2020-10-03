@@ -5,7 +5,7 @@ require "active_record"
 
 namespace :db do
 
-  env = 'default' || ENV['ENVIRONMENT']
+  env = ENV['ENVIRONMENT'] || 'default'
   db_config = YAML::load(File.open('config/database.yml'))[env]
   db_config_admin = db_config.merge({'database' => 'postgres', 'schema_search_path' => 'public'})
 
