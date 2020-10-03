@@ -1,4 +1,8 @@
+require 'rubygems'
+require 'bundler/setup'
+
 require "active_record"
+require "concurrent_ruby"
 
 namespace :db do
 
