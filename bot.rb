@@ -3,6 +3,7 @@ require 'bundler/setup'
 require_relative 'helpers/name_helper'
 extend NameHelper
 
+require 'erb'
 require 'discordrb'
 require 'discordrb/webhooks'
 require 'base64'
@@ -17,7 +18,7 @@ require "concurrent_ruby"
 require_all 'models/*.rb'
 
 env = ENV['ENVIRONMENT'] || 'default'
-db_config = YAML::load(File.open('config/database.yml'))[env]
+db_config = YAML::load(ERB.new(File.open('config/database.yml')))[env]
 ActiveRecord::Base.establish_connection(db_config)
 
 bot = Discordrb::Bot.new token: ENV['BOT_TOKEN']
