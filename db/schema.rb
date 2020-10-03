@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2020_10_03_145203) do
   create_table "servers", force: :cascade do |t|
     t.string "discord_id", null: false
     t.boolean "crywalker", default: false, null: false
+    t.boolean "sandstorm_mode", default: false, null: false
     t.boolean "penis_mode", default: false, null: false
     t.boolean "rename_mode", default: false, null: false
     t.string "nick"
