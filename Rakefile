@@ -7,7 +7,7 @@ require "active_record"
 namespace :db do
 
   env = ENV['ENVIRONMENT'] || 'default'
-  db_config = YAML::load(ERB.new(File.open('config/database.yml')).result)[env]
+  db_config = YAML::load(ERB.new(File.read('config/database.yml')).result)[env]
   db_config_admin = db_config.merge({'database' => 'postgres', 'schema_search_path' => 'public'})
 
   desc "Create the database"
