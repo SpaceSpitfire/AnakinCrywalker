@@ -40,7 +40,7 @@ end
 bot.message(start_with: ']quote') do |event|
   return if event.author.bot_account?
   member = event.message.mentions[0].on(event.server) || event.author
-  say = event.message.content.split(/<@!?\d*>/, 2).last
+  say = event.message.content.split(/<@!?\d*>/, 2).last.gsub('@everyone', '@еvеryonе')
   avatar = "data:image/png;base64,#{Base64.encode64(Net::HTTP.get URI(member.avatar_url.gsub('webp', 'png')))}"
   hook = event.message.channel.create_webhook(member.nick || member.name, avatar)
   client = Discordrb::Webhooks::Client.new(token: hook.token, id: hook.id)
@@ -53,7 +53,7 @@ end
 bot.message(start_with: ']sneakquote') do |event|
   return if event.author.bot_account?
   member = event.message.mentions[0].on(event.server) || event.author
-  say = event.message.content.split(/<@!?\d*>/, 2).last
+  say = event.message.content.split(/<@!?\d*>/, 2).last.gsub('@everyone', '@еvеryonе')
   avatar = "data:image/png;base64,#{Base64.encode64(Net::HTTP.get URI(member.avatar_url.gsub('webp', 'png')))}"
   hook = event.message.channel.create_webhook(member.nick || member.name, avatar)
   event.message.delete
