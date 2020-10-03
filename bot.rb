@@ -1,5 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
+require_relative 'helpers/name_helper'
+extend NameHelper
 
 require 'discordrb'
 require 'discordrb/webhooks'
@@ -153,7 +155,7 @@ bot.message(start_with: /]rename.mode/i) do |event|
         event.respond("rename mode enabled renaming everyone I can to #{new_name}\n this will take some time because of discord's rate limitations")
         event.server.members.each do |member|
           break unless(rename_mode[event.server][:active])
-          member.set_nick(rename_mode[event.server][:name]) rescue nil
+          member.set_nick(new_name(rename_mode[event.server][:name], member)) rescue nil
           sleep(1)
         end
       end
@@ -162,7 +164,7 @@ bot.message(start_with: /]rename.mode/i) do |event|
       rename_mode[event.server] = {name: new_name, active: false}
       event.respond("single run rename called, renaming everyone I can to #{new_name}\n this will take some time because of discord's rate limitations")
       event.server.members.each do |member|
-        member.set_nick(rename_mode[event.server][:name]) rescue nil
+        member.set_nick(new_name(rename_mode[event.server][:name], member)) rescue nil
         sleep(1)
       end
     elsif event.message.content.match?(/.* disable/i)
@@ -178,13 +180,15 @@ end
 
 bot.member_join() do |event|
   if(rename_mode[event.server][:active])
-    event.user.on(event.server).set_nick(rename_mode[event.server][:name]) rescue nil
+    member = event.user.on(event.server)
+    member.set_nick(new_name(rename_mode[event.server][:name], member)) rescue nil
   end
 end
 
 bot.member_update() do |event|
   if(rename_mode[event.server][:active])
-    event.user.on(event.server).set_nick(rename_mode[event.server][:name]) rescue nil
+    member = event.user.on(event.server)
+    member.set_nick(new_name(rename_mode[event.server][:name], member)) rescue nil
   end
 end
 
