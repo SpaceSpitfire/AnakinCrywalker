@@ -18,7 +18,7 @@ require "concurrent_ruby"
 require_all 'models/*.rb'
 
 env = ENV['ENVIRONMENT'] || 'default'
-db_config = YAML::load(ERB.new(File.open('config/database.yml')))[env]
+db_config = YAML::load(ERB.new(File.open('config/database.yml')).result)[env]
 ActiveRecord::Base.establish_connection(db_config)
 
 bot = Discordrb::Bot.new token: ENV['BOT_TOKEN']
