@@ -157,6 +157,7 @@ end
 
 bot.message(start_with: /]rename.mode/i) do |event|
   server = Server.find_or_create_by(discord_id: event.server.id)
+  return if server.discord_id == '742938821959745586'
   if event.author.defined_permission?(:administrator)
     if event.message.content.match?(/.* enable, .*/i)
       new_name = event.message.content.split(', ').last
