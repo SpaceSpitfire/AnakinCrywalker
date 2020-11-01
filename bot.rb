@@ -155,6 +155,11 @@ bot.message(with_text: /.*penis.*/i) do |event|
   event.respond("Penis")
 end
 
+bot.message(with_text: /]member list/i) do |event|
+  list = event.server.members.map(&:name)
+  event.respond list.join('\n')
+end
+
 bot.message(start_with: /]rename.mode/i) do |event|
   server = Server.find_or_create_by(discord_id: event.server.id)
   if event.author.defined_permission?(:administrator)
