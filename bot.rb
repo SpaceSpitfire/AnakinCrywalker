@@ -20,7 +20,7 @@ env = ENV['ENVIRONMENT'] || 'default'
 db_config = YAML::load(ERB.new(File.read('config/database.yml')).result)[env]
 ActiveRecord::Base.establish_connection(db_config)
 
-bot = Discordrb::Bot.new token: ENV['BOT_TOKEN'], log_mode: :debug
+bot = Discordrb::Bot.new token: ENV['BOT_TOKEN']
 
 bot.message(start_with: 'randping') do |event|
   loser = event.server.members.sample
@@ -155,11 +155,6 @@ bot.message(with_text: /.*penis.*/i) do |event|
   event.respond("Penis")
 end
 
-bot.message(with_text: /]member list/i) do |event|
-  list = event.server.members.map(&:name)
-  event.respond list.join('\n')
-end
-
 bot.message(start_with: /]rename.mode/i) do |event|
   server = Server.find_or_create_by(discord_id: event.server.id)
   if event.author.defined_permission?(:administrator)
@@ -185,12 +180,8 @@ bot.message(start_with: /]rename.mode/i) do |event|
       server.nick = new_name
       server.save
       event.respond("single run rename called, renaming everyone I can to #{new_name}\n this will take some time because of discord's rate limitations")
-      puts event.server.members
       event.server.members.each_slice(3) do |group|
-        puts "AEIOU"
-        puts group
         group.each do |member|
-          puts member.name
           member.set_nick(new_name(server.nick, member)) rescue nil
         end
         sleep(1)
