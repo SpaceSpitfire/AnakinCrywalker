@@ -182,6 +182,7 @@ bot.message(start_with: /]rename.mode/i) do |event|
       event.respond("single run rename called, renaming everyone I can to #{new_name}\n this will take some time because of discord's rate limitations")
       event.server.members.each_slice(3) do |group|
         group.each do |member|
+          puts member.name
           member.set_nick(new_name(server.nick, member)) rescue nil
         end
         sleep(1)
