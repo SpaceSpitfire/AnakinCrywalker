@@ -20,7 +20,7 @@ env = ENV['ENVIRONMENT'] || 'default'
 db_config = YAML::load(ERB.new(File.read('config/database.yml')).result)[env]
 ActiveRecord::Base.establish_connection(db_config)
 
-bot = Discordrb::Bot.new token: ENV['BOT_TOKEN']
+bot = Discordrb::Bot.new token: ENV['BOT_TOKEN'], log_mode: :debug
 
 bot.message(start_with: 'randping') do |event|
   loser = event.server.members.sample
