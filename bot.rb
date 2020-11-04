@@ -22,11 +22,6 @@ ActiveRecord::Base.establish_connection(db_config)
 
 bot = Discordrb::Bot.new token: ENV['BOT_TOKEN']
 
-bot.message(start_with: 'randping') do |event|
-  loser = event.server.members.sample
-  event.respond(loser.mention)
-end
-
 bot.message(start_with: Regexp.new(Regexp.escape('now this is where the fun begins'), Regexp::IGNORECASE)) do |event|
   server = Server.find_or_create_by(discord_id: event.server.id)
   if server.crywalker
@@ -51,6 +46,7 @@ bot.message(start_with: Regexp.new(Regexp.escape('I have the high ground'), Rege
 end
 
 bot.message(start_with: ']quote') do |event|
+  return if event.author.id == '624461619400933376'
   return if event.author.bot_account?
   member = event.message.mentions[0].on(event.server) || event.author
   say = event.message.content.split(/<@!?\d*>/, 2).last.gsub('@everyone', '@еvеryonе')
@@ -64,6 +60,7 @@ bot.message(start_with: ']quote') do |event|
 end
 
 bot.message(start_with: ']sneakquote') do |event|
+  return if event.author.id == '624461619400933376'
   return if event.author.bot_account?
   member = event.message.mentions[0].on(event.server) || event.author
   say = event.message.content.split(/<@!?\d*>/, 2).last.gsub('@everyone', '@еvеryonе')
@@ -219,6 +216,7 @@ end
 
 
 bot.message(start_with: /]role count/i) do |event|
+  return if event.author.id == '624461619400933376'
     role_name = event.message.content.gsub(/]role count /i, '')
 
       role = event.message.role_mentions[0] || event.server.roles.find{|role| role.name.downcase == role_name.downcase.strip}
