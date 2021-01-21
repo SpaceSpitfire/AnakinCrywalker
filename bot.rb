@@ -49,7 +49,7 @@ bot.message(start_with: ']quote') do |event|
   return if event.author.id == '624461619400933376'
   return if event.author.bot_account?
   member = event.message.mentions[0].on(event.server) || event.author
-  say = event.message.content.split(/<@!?\d*>/, 2).last.gsub('@everyone', '@еvеryonе')
+  say = event.message.content.split(/<@!?\d*>/, 2).last.gsub('@everyone', '@еvеryonе').gsub('@here', '@hеrе')
   avatar = "data:image/png;base64,#{Base64.encode64(Net::HTTP.get URI(member.avatar_url.gsub('webp', 'png')))}"
   hook = event.message.channel.create_webhook(member.nick || member.name, avatar)
   client = Discordrb::Webhooks::Client.new(token: hook.token, id: hook.id)
