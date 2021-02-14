@@ -36,7 +36,7 @@ bot.message(with_text: Regexp.new(Regexp.escape('this is where the fun begins'),
 end
 
 bot.message(start_with: ']inclusion ') do |event|
-  inclusive_text = message.split(' ', 2).gsub(/[aeiou]/i, 'x')
+  inclusive_text = event.message.content.split(' ', 2).last.gsub(/[aeiou]/i, 'x')
   event.respond(inclusive_text)
 end
 
