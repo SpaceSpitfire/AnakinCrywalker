@@ -22,7 +22,7 @@ ActiveRecord::Base.establish_connection(db_config)
 
 bot = Discordrb::Bot.new token: ENV['BOT_TOKEN']
 
-bot.message(start_with: Regexp.new(Regexp.escape('now this is where the fun begins'), Regexp::IGNORECASE)) do |event|
+bot.message(with_text: Regexp.new(Regexp.escape('this is where the fun begins'), Regexp::IGNORECASE)) do |event|
   server = Server.find_or_create_by(discord_id: event.server.id)
   if server.crywalker
     event.respond('Anakin Crywalker')
@@ -33,6 +33,11 @@ bot.message(start_with: Regexp.new(Regexp.escape('now this is where the fun begi
       sleep(3600)
     end
   end
+end
+
+bot.message(start_with: ']inclusion ') do |event|
+  inclusive_text = message.split(' ', 2).gsub(/[aeiou]/i, 'x')
+  event.respond(inclusive_text)
 end
 
 bot.message(start_with: Regexp.new(Regexp.escape('I have the high ground'), Regexp::IGNORECASE)) do |event|
